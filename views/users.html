@@ -1,0 +1,42 @@
+<div>
+    <h2>Управление пользователями</h2>
+    
+    <div>
+        <h3>Добавить пользователя</h3>
+        <form name="userForm" ng-submit="addUser()" novalidate>
+            <div class="form-group">
+                <label>Имя:</label>
+                <input type="text" ng-model="newUser.name" required>
+            </div>
+            <div class="form-group">
+                <label>Начальный баланс:</label>
+                <input type="number" ng-model="newUser.money.cash" step="0.01" min="0">
+            </div>
+            <button type="submit">Добавить пользователя</button>
+        </form>
+    </div>
+    
+    <div>
+        <h3>Список пользователей</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Баланс</th>
+                    <th>Потрачено</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.money?.cash | currency }}</td>
+                    <td>{{ user.spending | currency }}</td>
+                    <td>
+                        <button ng-click="deleteUser(user.id)">Удалить</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
