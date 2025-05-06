@@ -75,7 +75,7 @@ angular.module('familyFinanceApp')
     })
     .controller('UserController', function($scope, FamilyFinanceService) {
         $scope.users = [];
-        $scope.newUser = {};
+       
         
         // Загрузка пользователей
         function loadUsers() {
@@ -87,16 +87,47 @@ angular.module('familyFinanceApp')
         }
         
         loadUsers();
+
+        $scope.newUser = {
+            name: '',
+            money: {
+                cash: 0
+            },
+            spending: 0, // по умолчанию
+            buyList: [] // по умолчанию
+        };
         
-        // Добавление нового пользователя
         $scope.addUser = function() {
             if ($scope.userForm.$valid) {
-                FamilyFinanceService.addUser($scope.newUser).then(function() {
-                    loadUsers(); 
-                    $scope.newUser = {}; // Очищаем форму
-                }).catch(function(error) {
-                    console.error('Error adding user:', error);
-                });
+                
+                var userToSend = {
+                    name: $scope.newUser.name,
+                    money: {
+                        cash: parseFloat($scope.newUser.money.cash) || 0
+                    },
+                    spending: 0, // по умолчанию
+                     buyList: [] // по умолчанию
+                    
+                };
+                
+                FamilyFinanceService.addUser(userToSend)
+                    .then(function() {
+                      
+                        $scope.newUser = {  
+                            name: '',
+                            money: { cash: 0 },
+                            spending: 0,
+                            buyList: []
+                        };
+                        $scope.userForm.$setPristine(); 
+                        
+                        
+                        loadUsers();
+                    })
+                    .catch(function(error) {
+                        console.error('Ошибка при добавлении:', error);
+                        alert('Ошибка: ' + (error.data.message || 'неизвестная ошибка'));
+                    });
             }
         };
         

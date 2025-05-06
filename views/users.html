@@ -9,32 +9,44 @@
                 <label>Имя:</label>
                 <input type="text" ng-model="newUser.name" required>
             </div>
+            
             <div class="form-group">
                 <label>Начальный баланс:</label>
-                <input type="number" ng-model="newUser.money.cash" step="0.01" min="0">
+                <input type="number" ng-model="newUser.money.cash" 
+                       step="0.01" min="0" value="0">
             </div>
-            <button type="submit">Добавить пользователя</button>
+            
+            <button type="submit" ng-disabled="userForm.$invalid">
+                Добавить пользователя
+            </button>
         </form>
     </div>
-    
     <div>
         <h3>Список пользователей</h3>
-        <table>
+        
+        <!-- Сообщение, если пользователей нет -->
+        <div ng-if="users.length === 0" class="no-users-message">
+            Нет пользователей для отображения
+        </div>
+        
+        <table class="user-table" ng-if="users.length > 0">
             <thead>
                 <tr>
+                    <th>№</th>
                     <th>Имя</th>
-                    <th>Баланс</th>
                     <th>Потрачено</th>
                     <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in users">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.money?.cash | currency }}</td>
-                    <td>{{ user.spending | currency }}</td>
+                <tr ng-repeat="user in users track by user.id">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ user.name || 'Не указано' }}</td>
+                    <td>{{ (user.spending || 0) | currency:'₽':2 }}</td>
                     <td>
-                        <button ng-click="deleteUser(user.id)">Удалить</button>
+                        <button ng-click="deleteUser(user.id)" class="btn-delete">
+                            Удалить
+                        </button>
                     </td>
                 </tr>
             </tbody>
