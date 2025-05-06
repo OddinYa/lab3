@@ -1,7 +1,8 @@
 <div ng-controller="MainController" >
+    <div>
     <h2>Баланс семьи</h2>
     <div><strong>{{ familyBalance | currency:"₽" }}</strong></div>
-    
+    </div>
     <div>
         <input type="number" ng-model="amount">
         <button ng-click="addToFamilyBalance(amount)">Пополнить</button>
@@ -37,7 +38,6 @@
         <pre>{{ newBuyForm.$error | json }}</pre>
         <p>Состояние формы: {{ newBuyForm.$valid ? 'ВАЛИДНА' : 'НЕВАЛИДНА' }}</p>
     </div>
-    
 
     <div>
         <h3>Список покупок</h3>
@@ -64,4 +64,9 @@
             </tbody>
         </table>
     </div>
+
+    <div>
+        <a href="#/users">Управление пользователями</a>
+    </div>
+
 </div>

@@ -1,7 +1,7 @@
 angular.module('familyFinanceApp')
     .factory('FamilyFinanceService', function($http) {
         const baseUrl = 'http://localhost:8080';
-        const familyId = 1; // Предполагаем, что работаем с семьей с ID=1
+        const familyId = 1; //семья одна
         
         return {
             // Методы для работы с балансом семьи
